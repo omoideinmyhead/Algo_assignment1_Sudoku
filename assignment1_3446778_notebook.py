@@ -148,20 +148,25 @@ class Sudoku():
         :return: This method returns if the cell, denoted by row and column, is correct compared to the rest of the grid.
         :rtype: boolean
         """
-        number = self.grid[row, col]
-        # check row
-        row_numbers = self.get_row(row)
-        if not is_set_correct(row_numbers):
+        cell = self.grid[row,col]
+        if cell == 0:  
+            return True
+
+        #checking row and column
+        row_is_correct = self.is_set_correct(self.get_row(row))
+        if not row_is_correct:
             return False
-        # check column
-        column_numbers = self.get_col(col)
-        if not is_set_correct(column_numbers):
+        
+        col_is_correct = self.is_set_correct(self.get_col(col))
+        if not col_is_correct:
             return False
-        # check box
+        
+        #check box
         box_idx = self.get_box_index(row, col)
-        box = get_box(box_idx)
-        if not is_set_correct(box):
+        box = self.get_box(box_idx)
+        if not self.is_set_correct(box):
             return False
+        
         return True
 
     def check_sudoku(self):
@@ -228,6 +233,7 @@ class Sudoku():
         # loop over all possible values to fill in the current cell
         for num in range(1, self.size + 1):
             self.grid[row, col] = num
+            print(f"backtrack: trying {num} for {row, col}")
             if self.check_sudoku():
                 # move to the next cell
                 if self.next_step(row, col, backtracking):
