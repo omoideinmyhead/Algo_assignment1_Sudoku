@@ -224,7 +224,8 @@ class Sudoku():
         :rtype: boolean
         """
         # base case: if we reach the last cell, return the checked result
-        if row == self.size - 1 and col == self.size - 1:
+        # if row == self.size - 1 and col == self.size - 1:
+        if row == self.size and col == 0:
             return self.check_sudoku()
 
         if self.grid[row, col] != 0:
@@ -237,9 +238,11 @@ class Sudoku():
             if self.check_sudoku():
                 # move to the next cell
                 if self.next_step(row, col, backtracking):
+                    print("True")
                     return True
 
         self.clean_up(row, col)
+        print("False")
         return False
 
     def next_step(self, row, col, backtracking=True):
